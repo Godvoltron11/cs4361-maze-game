@@ -1,4 +1,3 @@
-
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.glu.GLU;
 
@@ -22,16 +21,27 @@ public class Renderer implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable drawable) {
+        // This applies any held-down keys and mouse movement from
+        // this frame - without this call, the Camera's position/yaw/
+        // pitch would never actually change
+        camera.update();
+
         GL2 gl = drawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
-        // Apply camera transform
+        // Point where the camera is looking, using the same yaw/pitch
+        // math as Camera.moveForward() so the direction you move and
+        // the direction you're facing always agree
+        double yawRad = Math.toRadians(camera.yaw);
+        double pitchRad = Math.toRadians(camera.pitch);
+        double lookX = camera.x + Math.sin(yawRad) * Math.cos(pitchRad);
+        double lookY = camera.y + Math.sin(pitchRad);
+        double lookZ = camera.z - Math.cos(yawRad) * Math.cos(pitchRad);
+
         glu.gluLookAt(
             camera.x, camera.y, camera.z,
-            camera.x + Math.sin(Math.toRadians(camera.yaw)),
-            camera.y - Math.sin(Math.toRadians(camera.pitch)),
-            camera.z - Math.cos(Math.toRadians(camera.yaw)),
+            lookX, lookY, lookZ,
             0, 1, 0
         );
 

@@ -1,4 +1,3 @@
-
 public class Maze {
     // 1 = wall, 0 = open path
     private int[][] grid;
