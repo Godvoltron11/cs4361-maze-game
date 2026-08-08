@@ -90,6 +90,7 @@ public class Camera implements KeyListener, MouseMotionListener {
         if (key == KeyEvent.VK_DOWN) down = true;
         if (key == KeyEvent.VK_LEFT) left = true;
         if (key == KeyEvent.VK_RIGHT) right = true;
+        if (key == KeyEvent.VK_ESCAPE) System.exit(0);
     }
 
     @Override

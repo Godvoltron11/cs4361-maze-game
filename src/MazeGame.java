@@ -20,7 +20,7 @@ public class MazeGame {
             {1,1,1,1,0,1,0,1},
             {1,1,1,1,1,1,1,1}
         };
-        Maze maze = new Maze(layout);
+        Maze maze = new Maze(layout, 6, 6);
 
         // Canvas has to exist BEFORE the Camera, since Camera needs
         // it (to find the screen center for mouse look)
@@ -38,6 +38,7 @@ public class MazeGame {
 
         Renderer renderer = new Renderer(maze, camera);
         canvas.addGLEventListener(renderer);
+        renderer.setExit(maze.getExitRow(), maze.getExitCol());
 
         // Let the camera actually receive key presses and mouse movement
         canvas.addKeyListener(camera);
@@ -87,6 +88,7 @@ public class MazeGame {
 			public void display(GLAutoDrawable drawable) {
 				player.yaw = camera.yaw;
 				player.update(input, collision);
+				player.checkWin(maze, Renderer.CELL_SIZE);
 				camera.x = player.x;
 				camera.y = player.y;
 				camera.z = player.z;
@@ -104,7 +106,11 @@ public class MazeGame {
 				textRenderer.setColor(remainTime <= 10f ? Color.RED : Color.WHITE);
 				textRenderer.draw(timerText, 10, height - 30);
 				
-				if(player.isTimeExpired()) {
+				
+				if(player.hasWin()) {
+					textRenderer.setColor(Color.GREEN);
+					textRenderer.draw("YOU WIN!", width / 2 - 60, height / 2);
+				}else if(player.isTimeExpired()) {
 					textRenderer.setColor(Color.RED);
 					textRenderer.draw("TIME'S UP! GAME OVER!", width / 2 - 60, height / 2);
 					

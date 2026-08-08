@@ -14,6 +14,7 @@ public class PlayerLogic {
 	private long finishTimeMillis = -1;
 	private boolean gameRunning = false;
 	private boolean timeOver = false;
+	private boolean win = false;
 	
 	public PlayerLogic(float startX, float startY, float startZ) {
 		x = startX; y = startY; z = startZ;
@@ -52,6 +53,24 @@ public class PlayerLogic {
 		return timeOver;
 	}
 	
+	public boolean hasWin() {
+		return win;
+	}
+	
+	public void checkWin(Maze maze, float cellSize) {
+		if (win || timeOver) return;
+		
+		float exitX = maze.getExitCol() * cellSize;
+		float exitZ = maze.getExitRow() * cellSize;
+		float dx = x - exitX;
+		float dz = z - exitZ;
+		float distance = (float) Math.sqrt(dx * dx + dz * dz);
+		
+		if(distance < 1.0f) {
+			win = true;
+			finishTimer();
+		}
+	}
 	
 	//this includes updates for the timer, keyboard movements (WASD) and wall collision detection for the player
 	public void update(Input input, MazeCollisionCheck collision) {
@@ -62,6 +81,8 @@ public class PlayerLogic {
 			finishTimer();
 			return;
 		}
+		
+		if (win) return;
 		
 		float moveX = 0f, moveZ = 0f;
 		
