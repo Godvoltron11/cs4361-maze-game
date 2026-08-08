@@ -117,7 +117,7 @@ public class MazeGame {
 				
 				
 				if(player.hasWin()) {
-					textRenderer.setColor(Color.GREEN);
+					textRenderer.setColor(Color.BLUE);
 					textRenderer.draw("YOU WIN!", width / 2 - 60, height / 2);
 				}else if(player.isTimeExpired()) {
 					textRenderer.setColor(Color.RED);
