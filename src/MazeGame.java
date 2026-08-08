@@ -6,6 +6,11 @@ import com.jogamp.opengl.util.awt.TextRenderer;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JFrame;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+
 
 public class MazeGame {
     public static void main(String[] args) {
@@ -73,6 +78,10 @@ public class MazeGame {
         frame.add(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
+        BufferedImage cursorImg = new BufferedImage(16,16, BufferedImage.TYPE_INT_ARGB);
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0,0), "blank cursor");
+        canvas.setCursor(blankCursor);
 
         // The canvas needs keyboard focus, or key presses won't
         // reach the Camera's keyPressed()/keyReleased() methods

@@ -9,7 +9,7 @@ public class PlayerLogic {
 	public float yaw;
 	
 	private float moveSpeed = 0.15f;
-	private static final float TIME_LIMIT_SECONDS = 180f; //3 minute timer for the game
+	private static final float TIME_LIMIT_SECONDS = 120f; // minute timer for the game
 	private long startTimeMillis;
 	private long finishTimeMillis = -1;
 	private boolean gameRunning = false;
